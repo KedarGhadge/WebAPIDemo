@@ -1,5 +1,8 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -17,6 +20,19 @@ namespace WebAPIDemo.Controllers
         // GET api/values
         public IEnumerable<string> Get()
         {
+            using (MySqlConnection dbConn = new MySqlConnection(ConfigurationManager.ConnectionStrings["connstring"].ConnectionString))
+            {
+                //MySqlConnection dbConn = new MySqlConnection();
+                //dbConn.ConnectionString = "Server = 127.0.0.1; Port =3307; Database = webapi; Uid = root; Pwd = 123456;";
+                MySqlCommand query = dbConn.CreateCommand();
+                query.CommandText = "SELECT* FROM employee";
+                dbConn.Open();
+            MySqlDataAdapter sDa = new MySqlDataAdapter(query);
+            DataTable dt = new DataTable("CharacterInfo");
+            sDa.Fill(dt);
+                //DataTable schemaTable = reader.GetSchemaTable();
+                // Database work done here 
+            }
             return strings;
         }
 
