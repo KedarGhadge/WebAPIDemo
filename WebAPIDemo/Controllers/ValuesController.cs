@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WebAPIDemo.Models;
 
 namespace WebAPIDemo.Controllers
 {
@@ -17,23 +18,18 @@ namespace WebAPIDemo.Controllers
         {
             "value0","value1", "value2"
         };
+        private static ValuesModels _users = new ValuesModels();
+        private static List<string> myList = _users.GetUsers();
         // GET api/values
         public IEnumerable<string> Get()
         {
-            using (MySqlConnection dbConn = new MySqlConnection(ConfigurationManager.ConnectionStrings["connstring"].ConnectionString))
-            {
-                //MySqlConnection dbConn = new MySqlConnection();
-                //dbConn.ConnectionString = "Server = 127.0.0.1; Port =3307; Database = webapi; Uid = root; Pwd = 123456;";
-                MySqlCommand query = dbConn.CreateCommand();
-                query.CommandText = "SELECT* FROM employee";
-                dbConn.Open();
-            MySqlDataAdapter sDa = new MySqlDataAdapter(query);
-            DataTable dt = new DataTable("CharacterInfo");
-            sDa.Fill(dt);
-                //DataTable schemaTable = reader.GetSchemaTable();
-                // Database work done here 
-            }
-            return strings;
+            //FetchList();
+            
+            //foreach (DataRow dr in dt.Rows)
+            //{
+            //    strings.Add(dr["EmployeeName"].ToString());
+            //}
+            return myList;
         }
 
         // GET api/values/5
@@ -59,5 +55,7 @@ namespace WebAPIDemo.Controllers
         {
             strings.RemoveAt(id);
         }
+
+        
     }
 }
